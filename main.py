@@ -1,3 +1,5 @@
+import asyncio
+
 from aiogram import (
     Bot,
     Dispatcher,
@@ -14,7 +16,6 @@ import sqlalchemy
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-
 TG_TOKEN = settings_app.TG_TOKEN
 
 bot = Bot(token=TG_TOKEN)
@@ -22,10 +23,14 @@ dp = Dispatcher(bot)
 
 DATABASE_URL = settings_app.dsn
 engine = create_async_engine(DATABASE_URL, future=True, echo=True)
-async_session = sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
+async_session = sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)()
 
 metadata = sqlalchemy.MetaData()
 Base = declarative_base(metadata=metadata)
+
+async def create_table():
+    async with engine.begin() as conn:
+        await conn.run_sync(metadata.create_all)
 
 
 @dp.message_handler(Command("info"))
@@ -65,6 +70,7 @@ async def left_member(message: Message):
     await db.delete_user_from_chat(session=async_session, chat_id=chat_id, user_tag=user_name)
     await message.answer(text=f'{user_name} покинул {chat_id}')
 
+
 @dp.message_handler(Command('deleteuser'))
 async def delete_user(message: Message):
     text = message.get_args()
@@ -74,6 +80,7 @@ async def delete_user(message: Message):
     for user_name in usernames:
         await db.delete_user_from_chat(session=async_session, chat_id=chat_id, user_tag=user_name)
         await message.answer(text=f'{user_name} покинул {chat_id}')
+
 
 @dp.message_handler(Command("tagall"))
 async def tag_all_member(message: Message):
@@ -222,6 +229,7 @@ async def change_username(message: Message):
 # https://t.me/+zEDqI5JwVZ8xZWJi
 if __name__ == '__main__':
     try:
+        engine.connect()
         executor.start_polling(dp)
     except Exception as err:
         print(err)

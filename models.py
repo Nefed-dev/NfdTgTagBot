@@ -25,9 +25,6 @@ async_session = sessionmaker(engine, expire_on_commit=False, class_=AsyncSession
 metadata = sqlalchemy.MetaData()
 Base = declarative_base(metadata=metadata)
 
-base = declarative_base()
-
-
 class User(Base):
     __tablename__ = "users"
 
