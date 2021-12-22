@@ -20,8 +20,13 @@ services:
     container_name: TgTagBot
     depends_on:
       - tg-bot-postgres
+    env_file:
+      - .env
     environment:
       POSTGRES_HOST: tg-bot-postgres
+    volumes:
+      - ./migrations:/usr/app/migrations
+
 
 volumes:
   postgres_volume:

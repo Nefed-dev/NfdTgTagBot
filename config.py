@@ -3,11 +3,11 @@ from db.dsn import generate_dsn_postgres
 
 
 class Settings(BaseSettings):
-    DB_USERNAME: str = Field(env='POSTGRES_USER')
-    DB_PASSWORD: str = Field(env="POSTGRES_PASSWORD")
-    DB_PORT: int = Field(env='POSTGRES_PORT')
-    DB_HOST: str = Field(env='POSTGRES_HOST')
-    DB_BASENAME: str = Field(env='POSTGRES_DB')
+    DB_USERNAME: str = Field(env='POSTGRES_USER',)
+    DB_PASSWORD: str = Field(env="POSTGRES_PASSWORD",)
+    DB_PORT: int = Field(env='POSTGRES_PORT',)
+    DB_HOST: str = Field(env='POSTGRES_HOST',)
+    DB_BASENAME: str = Field(env='POSTGRES_DB',)
     TG_TOKEN: str = Field(env='TG_TOKEN')
 
     @property

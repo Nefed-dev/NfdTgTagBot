@@ -29,5 +29,16 @@ RUN \
   echo "---> Cleaning up" && \
     rm -rf /tmp/* && \
     rm -rf /var/cache/apk/*
+#
+#RUN \
+#    cd usr/app && /
+#    alembic upgrade head
+
+#
+#RUN \
+#  echo "---> Alembic migrations" && \
+#    alembic revision --autogenerate -m "Add models" && \
+#    alembic upgrade head
+
 
 CMD ["python3", "main.py"]

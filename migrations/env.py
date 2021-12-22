@@ -1,5 +1,4 @@
 import asyncio
-
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
@@ -7,7 +6,7 @@ from sqlalchemy import pool
 from sqlalchemy.ext.asyncio import AsyncEngine
 
 from alembic import context
-from main import Base
+from db.models import Base
 from config import settings_app
 
 # this is the Alembic Config object, which provides
@@ -17,8 +16,8 @@ config = context.config
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 fileConfig(config.config_file_name)
-# config.set_main_option('sqlalchemy.url', settings_app.dsn)
-config.set_main_option('sqlalchemy.url',f"postgresql+asyncpg://postgres:zzz@localhost:5432/test2" )
+config.set_main_option('sqlalchemy.url', settings_app.dsn)
+
 # add your model's MetaData object here
 # for 'autogenerate' support
 # from myapp import mymodel
@@ -65,8 +64,10 @@ def do_run_migrations(connection):
 
 async def run_migrations_online():
     """Run migrations in 'online' mode.
+
     In this scenario we need to create an Engine
     and associate a connection with the context.
+
     """
     connectable = AsyncEngine(
         engine_from_config(
