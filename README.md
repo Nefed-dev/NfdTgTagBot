@@ -25,8 +25,12 @@ TG_TOKEN=
 
 
 #### После старта контейнереров командой "docker-compose up --build" необходимо выполнить следующие 2 команды:
-Генерация миграций из Моделей
-1.     docker exec TgTagBot alembic revision --autogenerate -m "inits"
+1. Генерация миграций из Моделей
 
-Применение миграций
-2.     docker exec TgTagBot alembic upgrade head
+     *docker exec TgTagBot alembic revision --autogenerate -m "inits"*
+
+2. Применение миграций
+
+     *docker exec TgTagBot alembic upgrade head*
+
+
